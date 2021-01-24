@@ -1,2 +1,2 @@
-# x86-Stack-Overflow
-Scripts for 32 bit stack buffer overflow
+# Stack-Overflow
+Skeleton script for stack buffer overflow
