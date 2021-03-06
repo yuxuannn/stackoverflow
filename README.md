@@ -1,2 +1,2 @@
 # Stack-Overflow
-Skeleton script for stack buffer overflow
+Skeleton script for a simple stack buffer overflow
